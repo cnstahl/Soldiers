@@ -1,13 +1,13 @@
 #! /bin/bash
 
-#SBATCH -J GKL2000
+#SBATCH -J GKL6000
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --time=04:00:00
+#SBATCH --time=12:00:00
 #SBATCH --mail-type=ALL
 
 workdir="$SLURM_SUBMIT_DIR"
-CMD="./soldiers2000 $SLURM_ARRAY_TASK_ID"
+CMD="./soldiers6000 $SLURM_ARRAY_TASK_ID"
 
 
 

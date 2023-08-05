@@ -9,7 +9,7 @@ typedef std::size_t length_t, position_t;
 typedef unsigned long ulong;
 //typedef std::bitset<length> bitstring;
 
-const int length  = 2000;    // System size
+const int length  = 6000;    // System size
 const int steps   = 100;    // Time limit (not used in relax)
 const int runs    = 100;    // Number of runs
 float prob  = .0;          // Probability of failure
@@ -66,10 +66,12 @@ void update() {
   
   for (int i = 0; i < length-3; i++) {
     buffer = (buffer>>1) + (state[i+3]<<6);
-    state.set(position_t(i), lookup[buffer]);
     //random update
     if (dis(gen) < prob) {
       state.flip(position_t(i));
+    }
+    else {
+      state.set(position_t(i), lookup[buffer]);
     }
   }
   //std::cout << "\n";
@@ -77,16 +79,18 @@ void update() {
   // Last three bits
   for (int i = 0; i < 3; i++) {
     buffer = (buffer>>1) + ((firstThree & (1<<i)) << (6-i));
-    state.set(position_t(length-3+i), lookup[buffer]);
     if (dis(gen) < prob) {
       state.flip(position_t(length-3+i));
+    }
+    else {
+      state.set(position_t(length-3+i), lookup[buffer]);
     }
   }
 }
 
 void printHistory() {
   std::ofstream myfile;
-  myfile.open ("history.bin");
+  myfile.open ("../data/history.bin");
   
   for (int i = (length / 3); i < (2 * length / 3); i++) {
    state.flip(position_t(i));
@@ -104,7 +108,7 @@ void printHistory() {
 
 void printStats() {
   std::ofstream myfile;
-  myfile.open("stats.dat");
+  myfile.open("../data/stats.dat");
   
   for (int j = 0; j < runs; j++) {
     state.reset();
@@ -131,7 +135,7 @@ void printRelax() {
   std::ofstream myfile;
 
   for (int j = 0; j < runs; j++) {
-    myfile.open("relaxL" + std::to_string(length) +
+    myfile.open("../data/relaxL" + std::to_string(length) +
 		"p" + std::to_string(prob) + ".dat", std::ios_base::app);
     state.reset();
     myfile << findRelax() << ", ";
