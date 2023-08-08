@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#SBATCH -J GKL6000
+#SBATCH -J  GKL6000
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --time=12:00:00

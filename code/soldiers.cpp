@@ -9,7 +9,7 @@ typedef std::size_t length_t, position_t;
 typedef unsigned long ulong;
 //typedef std::bitset<length> bitstring;
 
-const int length  = 6000;    // System size
+const int length  = 500;    // System size
 const int steps   = 100;    // Time limit (not used in relax)
 const int runs    = 100;    // Number of runs
 float prob  = .0;          // Probability of failure
@@ -68,7 +68,7 @@ void update() {
     buffer = (buffer>>1) + (state[i+3]<<6);
     //random update
     if (dis(gen) < prob) {
-      state.flip(position_t(i));
+      state.set(position_t(i), rand() % 2);
     }
     else {
       state.set(position_t(i), lookup[buffer]);
@@ -80,7 +80,7 @@ void update() {
   for (int i = 0; i < 3; i++) {
     buffer = (buffer>>1) + ((firstThree & (1<<i)) << (6-i));
     if (dis(gen) < prob) {
-      state.flip(position_t(length-3+i));
+      state.set(position_t(length-3+i), rand() % 2);
     }
     else {
       state.set(position_t(length-3+i), lookup[buffer]);
